@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/lisbao1303/rest-api-spring.git' // repositório
+                git 'https://github.com/lisbao1303/rest-api-spring.git' // Repositório
             }
         }
 
@@ -24,6 +24,16 @@ pipeline {
             steps {
                 script {
                     sh './mvnw clean package -P release -DskipTests' // Realiza o build da aplicação
+                }
+            }
+        }
+
+        stage('Prepare Environment') {
+            steps {
+                // Carregar o arquivo secreto
+                withCredentials([file(credentialsId: 'my-env-file', variable: 'ENV_FILE')]) {
+                    // Copiar o arquivo .env para o workspace
+                    sh 'cp $ENV_FILE .env'
                 }
             }
         }
