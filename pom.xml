@@ -13,6 +13,14 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>rest-api-spring</name>
 	<description>Simple REST API with Spring Boot</description>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<finalName>${project.artifactId}</finalName>
+			</build>
+		</profile>
+	</profiles>
 	<url/>
 	<licenses>
 		<license/>
@@ -73,7 +81,8 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>1.18.36</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -85,6 +94,12 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
 		</dependency>
 
@@ -114,6 +129,7 @@
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
