@@ -17,7 +17,7 @@ services:
     build:
       context: .  # Caminho para o diretório com o Dockerfile
       dockerfile: Dockerfile  # Opcional, caso o nome do arquivo seja diferente
-    container_name: rest-api-spring
+    container_name: rest-api-spring-app
     restart: on-failure
     env_file: ./.env
     ports:
