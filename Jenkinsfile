@@ -56,7 +56,7 @@ pipeline {
             steps {
                 script {
                     // Usando a credencial da conta de serviço do Google Cloud
-                    withCredentials([file(credentialsId: 'google-service-account', variable: 'GOOGLE_CREDENTIALS_JSON')]) {
+                    withCredentials([file(credentialsId: 'my-google-cloud-service-account', variable: 'GOOGLE_CREDENTIALS_JSON')]) {
                         // Ativar as credenciais da conta de serviço uma vez no início do pipeline
                         sh """
                             export GOOGLE_APPLICATION_CREDENTIALS=\$GOOGLE_CREDENTIALS_JSON
