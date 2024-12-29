@@ -1,29 +1,23 @@
 services:
   mysqldb:
     image: mysql:5.7
-    restart: unless-stopped
-    env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+      - MYSQL_ROOT_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQLDB_DATABASE}
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - "3306:3306"
     volumes:
       - mysqlvolume:/var/lib/mysql
 
   app:
-    depends_on:
-      - mysqldb
-    image: gcr.io/${GCP_PROJECT}/rest-api-spring:latest  # Imagem que você já construiu e enviou ao GCR
+    image: ${REGION}-docker.pkg.dev/${GCP_PROJECT}/${REPOSITORY_NAME}/${IMAGE_NAME}:latest
     container_name: rest-api-spring-app
-    restart: on-failure
-    env_file: ./.env
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false&createDatabaseIfNotExist=true
-      - SPRING_DATASOURCE_USERNAME=$MYSQLDB_USER
-      - SPRING_DATASOURCE_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/${MYSQLDB_DATABASE}?useSSL=false&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=${MYSQLDB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+    ports:
+      - "8080:8080"
     stdin_open: true
     tty: true
 

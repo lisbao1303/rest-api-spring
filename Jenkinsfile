@@ -81,12 +81,13 @@ pipeline {
             }
         }
 
-        stage('Validate Docker Compose') {
+        stage('Validate Docker Compose and Inject .env') {
             steps {
                 script {
                     // Verifica se o docker-compose.yml está correto
                     sh """
                         docker compose -f $DOCKER_COMPOSE_FILE config
+                        docker compose config > docker-compose-resolved.yaml
                     """
                 }
             }
@@ -97,7 +98,7 @@ pipeline {
                 script {
                     // Converte o docker-compose.yml para manifests do Kubernetes
                     sh """
-                        kompose convert --volumes persistentVolumeClaim --out ./k8s/
+                        kompose convert -f docker-compose-resolved.yaml --out ./k8s/
                     """
                 }
             }

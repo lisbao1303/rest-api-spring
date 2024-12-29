@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 .env
 lombok.config
-
+k8s/
 
 ### STS ###
 .apt_generated
@@ -34,3 +34,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/docker-compose-resolved.yaml
