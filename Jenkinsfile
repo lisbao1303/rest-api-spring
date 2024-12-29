@@ -86,7 +86,7 @@ pipeline {
                 script {
                     // Verifica se o docker-compose.yml está correto
                     sh """
-                        docker-compose -f $DOCKER_COMPOSE_FILE config
+                        docker compose -f $DOCKER_COMPOSE_FILE config
                     """
                 }
             }
