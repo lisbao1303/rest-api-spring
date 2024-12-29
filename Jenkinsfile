@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        docker build -f Dockerfile -t gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest .
+                        docker build -f Dockerfile -t $REGION-docker.pkg.dev/$GCP_PROJECT/$REPOSITORY_NAME/$IMAGE_NAME:latest .
                     """
                 }
             }
