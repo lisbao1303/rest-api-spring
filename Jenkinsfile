@@ -7,6 +7,8 @@ pipeline {
         GKE_ZONE = 'us-central1-a' // Ex.: us-central1-a
         IMAGE_NAME = 'rest-api-spring' // Nome da imagem Docker
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+        REGION = 'us-central1' // Define the region for Artifact Registry
+        REPOSITORY_NAME = 'docker-repository'
     }
 
     stages {
@@ -72,8 +74,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                        gcloud auth configure-docker
-                        docker push gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest
+                         gcloud auth configure-docker $REGION-docker.pkg.dev
+                         docker push $REGION-docker.pkg.dev/$GCP_PROJECT/$REPOSITORY_NAME/$IMAGE_NAME:latest
                     """
                 }
             }
