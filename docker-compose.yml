@@ -14,9 +14,7 @@ services:
   app:
     depends_on:
       - mysqldb
-    build:
-      context: .  # Caminho para o diretório com o Dockerfile
-      dockerfile: Dockerfile  # Opcional, caso o nome do arquivo seja diferente
+    image: gcr.io/${GCP_PROJECT}/rest-api-spring:latest  # Imagem que você já construiu e enviou ao GCR
     container_name: rest-api-spring-app
     restart: on-failure
     env_file: ./.env
