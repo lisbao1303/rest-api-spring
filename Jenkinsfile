@@ -46,8 +46,24 @@ pipeline {
             steps {
                 script {
                     sh """
-                    docker build -f Dockerfile -t gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest .
+                        docker build -f Dockerfile -t gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest .
                     """
+                }
+            }
+        }
+
+        stage('Authenticate with Google Cloud') {
+            steps {
+                script {
+                    // Usando a credencial da conta de serviço do Google Cloud
+                    withCredentials([file(credentialsId: 'google-service-account', variable: 'GOOGLE_CREDENTIALS_JSON')]) {
+                        // Ativar as credenciais da conta de serviço uma vez no início do pipeline
+                        sh """
+                            export GOOGLE_APPLICATION_CREDENTIALS=\$GOOGLE_CREDENTIALS_JSON
+                            gcloud auth activate-service-account --key-file=\$GOOGLE_APPLICATION_CREDENTIALS
+                            gcloud config set project $GCP_PROJECT
+                        """
+                    }
                 }
             }
         }
@@ -56,8 +72,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                    gcloud auth configure-docker
-                    docker push gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest
+                        gcloud auth configure-docker
+                        docker push gcr.io/$GCP_PROJECT/$IMAGE_NAME:latest
                     """
                 }
             }
@@ -68,7 +84,7 @@ pipeline {
                 script {
                     // Verifica se o docker-compose.yml está correto
                     sh """
-                    docker-compose -f $DOCKER_COMPOSE_FILE config
+                        docker-compose -f $DOCKER_COMPOSE_FILE config
                     """
                 }
             }
@@ -79,7 +95,7 @@ pipeline {
                 script {
                     // Converte o docker-compose.yml para manifests do Kubernetes
                     sh """
-                    kompose convert --volumes persistentVolumeClaim --out ./k8s/
+                        kompose convert --volumes persistentVolumeClaim --out ./k8s/
                     """
                 }
             }
@@ -90,12 +106,12 @@ pipeline {
                 script {
                     // Configura o acesso ao cluster GKE
                     sh """
-                    gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GCP_PROJECT
+                        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GCP_PROJECT
                     """
 
                     // Aplica os manifests convertidos no cluster
                     sh """
-                    kubectl apply -f ./k8s/
+                        kubectl apply -f ./k8s/
                     """
                 }
             }
