@@ -4,7 +4,7 @@ pipeline {
     environment {
         GCP_PROJECT = 'restapispringboot' // Substitua pelo ID do projeto GCP
         GKE_CLUSTER = 'rest-api-cluster-1' // Nome do cluster GKE
-        GKE_ZONE = 'us-central1-a' // Ex.: us-central1-a
+        GKE_ZONE = 'us-central1' // Ex.: us-central1-a
         IMAGE_NAME = 'rest-api-spring' // Nome da imagem Docker
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
         REGION = 'us-central1' // Define the region for Artifact Registry
