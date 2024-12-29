@@ -84,7 +84,7 @@ pipeline {
         stage('Validate Docker Compose and Inject .env') {
             steps {
                 script {
-                    // Verifica se o docker-compose.yml está correto
+                    // Verifica se o docker-compose.yml está correto e configura uma versao com as enviroments
                     sh """
                         docker compose -f $DOCKER_COMPOSE_FILE config
                         docker compose config > docker-compose-resolved.yaml
