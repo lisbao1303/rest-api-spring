@@ -37,7 +37,11 @@ public class SecurityConfig {
         private JWTUtil jwtUtil;
 
         private static final String[] PUBLIC_MATCHERS = {
-                        "/"
+                        "/",
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/api-docs",
+                "/v3/api-docs/**"
         };
         private static final String[] PUBLIC_MATCHERS_POST = {
                         "/user",
