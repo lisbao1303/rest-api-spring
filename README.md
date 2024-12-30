@@ -16,17 +16,17 @@ The Jenkins Server needs Maven, Docker plugins and access in terminal:
 
 LOCAL RUN:
 Running the Application (Classical Maven/SpringBoot Application)
-Install Dependencies:
+- Install Dependencies:
 `mvn clean install`
-Using Maven:
+- Using Maven:
 `mvn spring-boot:run`
-Building the Project:
+- Building the Project:
 `mvn clean package`
-Run the jar file:
+- Run the jar file:
 `java -jar target/app-name-0.0.1-SNAPSHOT.jar`
 
 Using Docker Compose:
 
-`docker build -f Dockerfile -t $REGION-docker.pkg.dev/$GCP_PROJECT/$REPOSITORY_NAME/$IMAGE_NAME:latest .` (! .env or change image path on docker-compose.yml)
-`docker-compose up -d`
+- `docker build -f Dockerfile -t $REGION-docker.pkg.dev/$GCP_PROJECT/$REPOSITORY_NAME/$IMAGE_NAME:latest .` (! .env or change image path on docker-compose.yml)
+- `docker-compose up -d`
 
